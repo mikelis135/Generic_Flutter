@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
 
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -23,8 +22,14 @@ class HomePage extends StatelessWidget {
             settingsAndNotifications(),
             balanceAndAddMoney(),
             Expanded(child: cardMenu(itemHeight, itemWidth)),
-            virtualCard(),
-            earnRewards(),
+            cardContent(
+                "Virtual cards",
+                "Create virtual dollar cards for your online spendings.",
+                Color.fromRGBO(252, 235, 207, 1)),
+            cardContent(
+                "Earn rewards",
+                "Invite your friend to Barter and you’ll both get 3 dollars.",
+                Color.fromRGBO(177, 203, 218, 1)),
           ],
         ),
       ),
@@ -110,19 +115,18 @@ class HomePage extends StatelessWidget {
   }
 
   Widget cardMenu(double height, double width) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 18, 0, 0),
       child: CustomScrollView(
         slivers: [
           SliverGrid.count(
-            mainAxisSpacing: 4,
             crossAxisCount: 2,
-            childAspectRatio: (width/height)*2.2,
+            childAspectRatio: (width / height) * 2.4,
             children: [
               gridItem("Request Money", 'assets/barterIcon.svg',
                   Color.fromRGBO(255, 231, 236, 1)),
               gridItem("Send Money", 'assets/barterIcon.svg',
-                  Color.fromRGBO(255,242,221,1)),
+                  Color.fromRGBO(255, 242, 221, 1)),
               gridItem("Buy Airtime", 'assets/airtime.svg',
                   Color.fromRGBO(223, 233, 234, 1)),
               gridItem("Pay Bills", 'assets/bills.svg',
@@ -137,7 +141,7 @@ class HomePage extends StatelessWidget {
   Widget gridItem(String title, String icon, Color color) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      margin: EdgeInsets.fromLTRB(7.5, 0, 7.5, 14),
+      margin: EdgeInsets.fromLTRB(7.5, 0, 7.5, 10),
       color: color,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,11 +165,23 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget virtualCard() {
-    return Container();
-  }
-
-  Widget earnRewards() {
-    return Container();
+  Widget cardContent(String title, String description, Color color) {
+    return Card(
+      margin: EdgeInsets.only(top: 15),
+      color: color,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment : MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(title),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+              child: Text(description),
+            )],
+        ),
+      ),
+    );
   }
 }
