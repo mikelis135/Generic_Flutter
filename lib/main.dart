@@ -1,70 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:newapp/ui/CardsPage.dart';
+import 'package:newapp/ui/HomePage.dart';
+import 'package:newapp/ui/MorePage.dart';
+import 'package:newapp/ui/TransactionsPage.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  AppContent createState() => AppContent();
+}
+
+class AppContent extends State<MyApp> {
+  int currentIndex = 0;
+  List<Widget> pageList = [
+    HomePage(),
+    CardsPage(),
+    TransactionsPage(),
+    MorePage()
+  ];
+
   @override
   Widget build(BuildContext context) {
+    PageController pageController = PageController(initialPage: 0);
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primaryColor: Colors.white, accentColor: Colors.black),
+      home: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.black45,
+          items: [
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/home.svg'), label: "Home"),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/cards.svg'), label: "Cards"),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/transactions.svg'),
+                label: "Transactions"),
+            BottomNavigationBarItem(
+                icon: SvgPicture.asset('assets/more.svg'), label: "More")
           ],
+          onTap: (index) => onTapped(index, pageController),
+        ),
+        body: PageView(
+          controller: pageController,
+          children: pageList,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void onTapped(int index, PageController pageController) {
+    setState(() {
+      currentIndex = index;
+      pageController.jumpToPage(currentIndex);
+    });
   }
 }
