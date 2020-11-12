@@ -29,24 +29,29 @@ class AppContent extends State<MyApp> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primaryColor: Colors.white, accentColor: Colors.black),
+      theme: ThemeData(
+          primaryColor: Colors.white,
+          accentColor: Color.fromARGB(51, 51, 51, 1)),
       home: Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.black45,
-          items: [
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/home.svg'), label: "Home"),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/cards.svg'), label: "Cards"),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/transactions.svg'),
-                label: "Transactions"),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/more.svg'), label: "More")
-          ],
-          onTap: (index) => onTapped(index, pageController),
+        bottomNavigationBar: InkWell(
+          splashColor: Colors.blue.withAlpha(30),
+          child: BottomNavigationBar(
+            currentIndex: currentIndex,
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.black45,
+            items: [
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset('assets/home.svg'), label: "Home"),
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset('assets/cards.svg'), label: "Cards"),
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset('assets/transactions.svg'),
+                  label: "Transactions"),
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset('assets/more.svg'), label: "More")
+            ],
+            onTap: (index) => onTapped(index, pageController),
+          ),
         ),
         body: PageView(
           controller: pageController,
